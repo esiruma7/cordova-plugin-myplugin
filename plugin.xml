@@ -15,31 +15,30 @@
     </js-module>
 
     <!-- ANDROID PLATFORM -->
-    <platform name="android">
-        <!-- Include LEGIC SDK jar -->
-        <source-file src="libs/LEGIC-Mobile-SDK-for-Android-V3.1.2.0.jar" target-dir="libs" />
+	<platform name="android">
+		<!-- LEGIC SDK JAR -->
+		<lib-file src="libs/LEGIC-Mobile-SDK-for-Android-V3.1.2.0.jar" arch="all" />
 
-        <!-- Add ProGuard rules -->
-        <resource-file src="LEGIC-Mobile-SDK-Android-proguard.pro" target="app/proguard-rules.pro" />
+		<!-- ProGuard rules -->
+		<resource-file src="LEGIC-Mobile-SDK-Android-proguard.pro" target="app/proguard-rules.pro" />
 
-        <!-- Required permissions -->
-        <config-file target="AndroidManifest.xml" parent="/manifest">
-            <uses-permission android:name="android.permission.BLUETOOTH" />
-            <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
-            <uses-permission android:name="android.permission.NFC" />
-            <uses-permission android:name="android.permission.INTERNET" />
-        </config-file>
+		<!-- Permissions -->
+		<config-file target="AndroidManifest.xml" parent="/manifest">
+			<uses-permission android:name="android.permission.BLUETOOTH" />
+			<uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
+			<uses-permission android:name="android.permission.NFC" />
+			<uses-permission android:name="android.permission.INTERNET" />
+		</config-file>
 
-        <!-- Register the plugin with Cordova -->
-        <config-file target="res/xml/config.xml" parent="/*">
-            <feature name="MyPlugin">
-                <param name="android-package" value="com.ofe.myplugin.MyPlugin" />
-            </feature>
-        </config-file>
+		<!-- Register plugin -->
+		<config-file target="res/xml/config.xml" parent="/*">
+			<feature name="MyPlugin">
+				<param name="android-package" value="com.ofe.myplugin.MyPlugin" />
+			</feature>
+		</config-file>
 
-        <!-- Java source -->
-        <source-file src="src/android/MyPlugin.java" target-dir="src/com/ofe/myplugin" />
-    </platform>
+		<source-file src="src/android/MyPlugin.java" target-dir="src/com/ofe/myplugin" />
+	</platform>
 
     <!-- IOS PLATFORM -->
     <platform name="ios">
