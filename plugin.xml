@@ -9,13 +9,13 @@
     </js-module>
 
 	<platform name="android">
-		<!-- Include LEGIC SDK jar -->
-		<framework src="libs/LEGIC-Mobile-SDK-for-Android-V3.1.2.0.jar" custom="true" />
+		<!-- Add the LEGIC JAR -->
+		<source-file src="libs/LEGIC-Mobile-SDK-for-Android-V3.1.2.0.jar" target-dir="libs" />
 
 		<!-- Add ProGuard rules -->
 		<resource-file src="LEGIC-Mobile-SDK-Android-proguard.pro" target="app/proguard-rules.pro" />
 
-		<!-- Add required permissions -->
+		<!-- Required permissions -->
 		<config-file target="AndroidManifest.xml" parent="/manifest">
 			<uses-permission android:name="android.permission.BLUETOOTH" />
 			<uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
