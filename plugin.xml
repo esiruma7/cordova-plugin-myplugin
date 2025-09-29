@@ -18,11 +18,11 @@
     </platform>
 
     <platform name="ios">
-        <config-file target="*-Info.plist" parent="/*">
-            <feature name="MyPlugin">
-                <param name="ios-package" value="MyPlugin" />
-            </feature>
-        </config-file>
-        <source-file src="src/ios/MyPlugin.m" />
-    </platform>
+		<config-file target="config.xml" parent="/*">
+			<feature name="MyPlugin">
+				<param name="ios-package" value="MyPlugin" />
+			</feature>
+		</config-file>
+		<source-file src="src/ios/MyPlugin.m" />
+	</platform>
 </plugin>
