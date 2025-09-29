@@ -16,6 +16,9 @@
 
     <!-- ANDROID PLATFORM -->
 	<platform name="android">
+		<!-- Copy the JAR -->
+		<source-file src="libs/LEGIC-Mobile-SDK-for-Android-V3.1.2.0.jar" target-dir="libs" />
+
 		<!-- LEGIC SDK JAR -->
 		<lib-file src="libs/LEGIC-Mobile-SDK-for-Android-V3.1.2.0.jar" arch="all" />
 
