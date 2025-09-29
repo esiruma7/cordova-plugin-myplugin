@@ -1,19 +1,17 @@
 <plugin id="cordova-plugin-myplugin" version="1.0.0"
     xmlns="http://apache.org/cordova/ns/plugins"
     xmlns:android="http://schemas.android.com/apk/res/android">
-    
-	<!-- Javascript 1-->
+
     <name>MyPlugin</name>
+
     <js-module src="www/MyPlugin.js" name="MyPlugin">
         <clobbers target="MyPlugin" />
     </js-module>
 
-    <!-- Android 1-->
     <platform name="android">
         <source-file src="src/android/MyPlugin.java" target-dir="src/com/ofe/myplugin" />
     </platform>
 
-    <!-- iOS 1-->
     <platform name="ios">
         <source-file src="src/ios/MyPlugin.m" />
     </platform>
