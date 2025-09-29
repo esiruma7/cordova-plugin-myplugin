@@ -17,7 +17,7 @@
     <!-- ANDROID PLATFORM -->
 	<platform name="android">
 		<!-- Add this line to link the LEGIC SDK JAR -->
-		<lib-file src="libs/LEGIC-Mobile-SDK-for-Android-V3.1.2.0.jar" arch="all" />
+		<framework src="libs/LEGIC-Mobile-SDK-for-Android-V3.1.2.0.jar" custom="true" type="jar" />
 
 		<!-- Optionally, include ProGuard rules if you have them -->
 		<resource-file src="LEGIC-Mobile-SDK-Android-proguard.pro" target="app/proguard-rules.pro" />
