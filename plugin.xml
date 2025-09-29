@@ -9,10 +9,20 @@
     </js-module>
 
     <platform name="android">
+        <config-file target="res/xml/config.xml" parent="/*">
+            <feature name="MyPlugin">
+                <param name="android-package" value="com.ofe.myplugin.MyPlugin" />
+            </feature>
+        </config-file>
         <source-file src="src/android/MyPlugin.java" target-dir="src/com/ofe/myplugin" />
     </platform>
 
     <platform name="ios">
+        <config-file target="*-Info.plist" parent="/*">
+            <feature name="MyPlugin">
+                <param name="ios-package" value="MyPlugin" />
+            </feature>
+        </config-file>
         <source-file src="src/ios/MyPlugin.m" />
     </platform>
 </plugin>
