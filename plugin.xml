@@ -1,57 +1,54 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<plugin id="cordova-plugin-myplugin" version="1.0.1"
-    xmlns="http://apache.org/cordova/ns/plugins"
-    xmlns:android="http://schemas.android.com/apk/res/android">
+<plugin id="cordova-plugin-myplugin" version="1.0.3"
+        xmlns="http://apache.org/cordova/ns/plugins"
+        xmlns:android="http://schemas.android.com/apk/res/android">
 
     <name>MyPlugin</name>
     <description>Cordova plugin bridging to LEGIC Mobile SDK</description>
     <license>MIT</license>
-    <keywords>cordova, legic, sdk</keywords>
-    <repo>https://github.com/esiruma7/cordova-plugin-myplugin</repo>
 
-    <!-- JS Bridge -->
+    <!-- JavaScript bridge -->
     <js-module src="www/MyPlugin.js" name="MyPlugin">
         <clobbers target="MyPlugin" />
     </js-module>
 
-    <!-- ANDROID PLATFORM -->
-	<platform name="android">
-		<!-- Add this line to link the LEGIC SDK JAR -->
-		<lib-file src="libs/LEGIC-Mobile-SDK-for-Android-V3.1.2.0.jar" arch="all" />
+    <!-- ANDROID -->
+    <platform name="android">
+        <!-- LEGIC SDK runtime (obfuscated classes) -->
+        <lib-file src="libs/LEGIC-Mobile-SDK-for-Android-V3.1.2.0.jar" arch="all" />
 
-		<!-- Optionally, include ProGuard rules if you have them -->
-		<resource-file src="LEGIC-Mobile-SDK-Android-proguard.pro" target="app/proguard-rules.pro" />
+        <!-- LEGIC SDK API (clean interfaces & imports) -->
+        <lib-file src="libs/LEGIC-Mobile-SDK-for-Android-V3.1.2.0-sources.jar" arch="all" />
 
-		<!-- Permissions required by LEGIC SDK -->
-		<config-file target="AndroidManifest.xml" parent="/manifest">
-			<uses-permission android:name="android.permission.BLUETOOTH" />
-			<uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
-			<uses-permission android:name="android.permission.NFC" />
-			<uses-permission android:name="android.permission.INTERNET" />
-		</config-file>
+        <!-- Optional ProGuard rules -->
+        <resource-file src="LEGIC-Mobile-SDK-Android-proguard.pro" target="app/proguard-rules.pro" />
 
-		<!-- Existing mapping for your plugin class -->
-		<config-file target="res/xml/config.xml" parent="/*">
-			<feature name="MyPlugin">
-				<param name="android-package" value="com.ofe.myplugin.MyPlugin" />
-			</feature>
-		</config-file>
+        <!-- Permissions -->
+        <config-file target="AndroidManifest.xml" parent="/manifest">
+            <uses-permission android:name="android.permission.BLUETOOTH" />
+            <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
+            <uses-permission android:name="android.permission.NFC" />
+            <uses-permission android:name="android.permission.INTERNET" />
+        </config-file>
 
-		<!-- Your Java source -->
-		<source-file src="src/android/MyPlugin.java" target-dir="src/com/ofe/myplugin" />
-	</platform>
+        <!-- Cordova feature registration -->
+        <config-file target="res/xml/config.xml" parent="/*">
+            <feature name="MyPlugin">
+                <param name="android-package" value="com.ofe.myplugin.MyPlugin" />
+            </feature>
+        </config-file>
 
+        <!-- Native Java bridge -->
+        <source-file src="src/android/MyPlugin.java" target-dir="src/com/ofe/myplugin" />
+    </platform>
 
-    <!-- IOS PLATFORM -->
+    <!-- IOS -->
     <platform name="ios">
-        <!-- Register the plugin with Cordova -->
         <config-file target="config.xml" parent="/*">
             <feature name="MyPlugin">
                 <param name="ios-package" value="MyPlugin" />
             </feature>
         </config-file>
-
-        <!-- iOS native source -->
         <source-file src="src/ios/MyPlugin.m" />
     </platform>
 </plugin>

@@ -1,22 +1,23 @@
 package com.ofe.myplugin;
 
-import org.apache.cordova.CallbackContext;
 import org.apache.cordova.CordovaPlugin;
+import org.apache.cordova.CallbackContext;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 
-// LEGIC SDK imports
-import com.legic.mobile.sdk.LegicMobileSdkManager;
-import com.legic.mobile.sdk.LegicMobileSdkManagerFactory;
+// LEGIC API imports (note the .api package)
+import com.legic.mobile.sdk.api.LegicMobileSdkManager;
+import com.legic.mobile.sdk.api.LegicMobileSdkManagerFactory;
 
 public class MyPlugin extends CordovaPlugin {
 
-    private LegicMobileSdkManager sdkManager;
+    private LegicMobileSdkManager legicManager;
 
     @Override
     public boolean execute(String action, JSONArray args, CallbackContext callbackContext) throws JSONException {
         if ("initLegic".equals(action)) {
-            initLegic(callbackContext);
+            this.initLegic(callbackContext);
             return true;
         }
         return false;
@@ -24,21 +25,16 @@ public class MyPlugin extends CordovaPlugin {
 
     private void initLegic(CallbackContext callbackContext) {
         try {
-            // Get SDK manager instance
-            sdkManager = LegicMobileSdkManagerFactory.getInstance().getManager();
+            // Initialize SDK Manager through factory
+            legicManager = LegicMobileSdkManagerFactory.getInstance(cordova.getContext());
 
-            if (sdkManager != null) {
-                // Note: real initialization requires AppID, tech user, password, and LEGIC Connect URL
-                // That comes from your LEGIC account / provisioning
-                // Example: sdkManager.start(appContext, appId, techUser, techPassword, connectUrl);
-
-                callbackContext.success("LEGIC SDK Manager available!");
+            if (legicManager != null) {
+                callbackContext.success("LEGIC SDK initialized successfully");
             } else {
-                callbackContext.error("LEGIC SDK Manager is null.");
+                callbackContext.error("Failed to initialize LEGIC SDK");
             }
-
         } catch (Exception e) {
-            callbackContext.error("LEGIC init failed: " + e.getMessage());
+            callbackContext.error("Exception: " + e.getMessage());
         }
     }
 }
