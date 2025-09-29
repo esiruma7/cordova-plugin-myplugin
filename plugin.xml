@@ -16,14 +16,13 @@
 
     <!-- ANDROID PLATFORM -->
 	<platform name="android">
-
-		<!-- LEGIC SDK JAR -->
+		<!-- Add this line to link the LEGIC SDK JAR -->
 		<lib-file src="libs/LEGIC-Mobile-SDK-for-Android-V3.1.2.0.jar" arch="all" />
 
-		<!-- Optional: ProGuard rules if provided by LEGIC -->
+		<!-- Optionally, include ProGuard rules if you have them -->
 		<resource-file src="LEGIC-Mobile-SDK-Android-proguard.pro" target="app/proguard-rules.pro" />
 
-		<!-- Required permissions -->
+		<!-- Permissions required by LEGIC SDK -->
 		<config-file target="AndroidManifest.xml" parent="/manifest">
 			<uses-permission android:name="android.permission.BLUETOOTH" />
 			<uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
@@ -31,17 +30,17 @@
 			<uses-permission android:name="android.permission.INTERNET" />
 		</config-file>
 
-		<!-- Register the plugin with Cordova -->
+		<!-- Existing mapping for your plugin class -->
 		<config-file target="res/xml/config.xml" parent="/*">
 			<feature name="MyPlugin">
 				<param name="android-package" value="com.ofe.myplugin.MyPlugin" />
 			</feature>
 		</config-file>
 
-		<!-- Native Java source -->
+		<!-- Your Java source -->
 		<source-file src="src/android/MyPlugin.java" target-dir="src/com/ofe/myplugin" />
-
 	</platform>
+
 
     <!-- IOS PLATFORM -->
     <platform name="ios">
