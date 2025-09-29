@@ -1,0 +1,12 @@
+{
+  "name": "cordova-plugin-myplugin",
+  "version": "1.0.0",
+  "description": "Simple Cordova plugin example for Outsystems",
+  "cordova": {
+    "id": "cordova-plugin-myplugin",
+    "platforms": ["android", "ios"]
+  },
+  "keywords": ["cordova", "plugin", "outsystems"],
+  "author": "Your Name",
+  "license": "MIT"
+}
