@@ -2,6 +2,7 @@
     xmlns="http://apache.org/cordova/ns/plugins"
     xmlns:android="http://schemas.android.com/apk/res/android">
     
+	<!-- Javascript -->
     <name>MyPlugin</name>
     <js-module src="www/MyPlugin.js" name="MyPlugin">
         <clobbers target="MyPlugin" />
