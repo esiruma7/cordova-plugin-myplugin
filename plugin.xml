@@ -8,14 +8,30 @@
         <clobbers target="MyPlugin" />
     </js-module>
 
-    <platform name="android">
-        <config-file target="res/xml/config.xml" parent="/*">
-            <feature name="MyPlugin">
-                <param name="android-package" value="com.ofe.myplugin.MyPlugin" />
-            </feature>
-        </config-file>
-        <source-file src="src/android/MyPlugin.java" target-dir="src/com/ofe/myplugin" />
-    </platform>
+	<platform name="android">
+		<!-- Include LEGIC SDK jar -->
+		<framework src="libs/LEGIC-Mobile-SDK-for-Android-V3.1.2.0.jar" custom="true" />
+
+		<!-- Add ProGuard rules -->
+		<resource-file src="LEGIC-Mobile-SDK-Android-proguard.pro" target="app/proguard-rules.pro" />
+
+		<!-- Add required permissions -->
+		<config-file target="AndroidManifest.xml" parent="/manifest">
+			<uses-permission android:name="android.permission.BLUETOOTH" />
+			<uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
+			<uses-permission android:name="android.permission.NFC" />
+			<uses-permission android:name="android.permission.INTERNET" />
+		</config-file>
+
+		<!-- Register the plugin -->
+		<config-file target="res/xml/config.xml" parent="/*">
+			<feature name="MyPlugin">
+				<param name="android-package" value="com.ofe.myplugin.MyPlugin"/>
+			</feature>
+		</config-file>
+
+		<source-file src="src/android/MyPlugin.java" target-dir="src/com/ofe/myplugin" />
+	</platform>
 
     <platform name="ios">
 		<config-file target="config.xml" parent="/*">
