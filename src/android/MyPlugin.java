@@ -8,6 +8,7 @@ import org.json.JSONException;
 // ✅ Correct LEGIC API imports
 import com.legic.mobile.sdk.api.LegicMobileSdkManager;
 import com.legic.mobile.sdk.api.LegicMobileSdkManagerFactory;
+import com.legic.mobile.sdk.api.LegicMobileSdkConfiguration;
 import com.legic.mobile.sdk.api.exception.SdkException;
 import com.legic.mobile.sdk.api.types.SdkStatus;
 
@@ -28,6 +29,9 @@ public class MyPlugin extends CordovaPlugin {
         return false; // Invalid action
     }
 
+    /**
+     * Simple Hello World bridge test
+     */
     private void sayHello(String message, CallbackContext callbackContext) {
         if (message != null && message.length() > 0) {
             callbackContext.success("Hello, " + message);
@@ -36,18 +40,25 @@ public class MyPlugin extends CordovaPlugin {
         }
     }
 
+    /**
+     * Initialize LEGIC Mobile SDK (stub - requires real Init Key)
+     */
     private void initLegic(CallbackContext callbackContext) {
         try {
-            // ⚠️ This requires a valid init key (will fail with Invalid Key for now)
-            legicManager = LegicMobileSdkManagerFactory.create(
-                cordova.getContext().getApplicationContext()
-            );
+            // ⚠️ Replace with a valid init key from LEGIC
+            String initKey = "YOUR_INIT_KEY_HERE";
+
+            LegicMobileSdkConfiguration config =
+                new LegicMobileSdkConfiguration.Builder(initKey).build();
+
+            LegicMobileSdkManagerFactory factory = LegicMobileSdkManagerFactory.getInstance();
+            legicManager = factory.create(config);
 
             if (legicManager != null) {
                 SdkStatus status = legicManager.getSdkStatus();
                 callbackContext.success("LEGIC SDK initialized, status: " + status);
             } else {
-                callbackContext.error("LEGIC SDK Manager not available");
+                callbackContext.error("LEGIC SDK Manager not created");
             }
         } catch (SdkException e) {
             callbackContext.error("LEGIC SDK init failed: " + e.getMessage());
