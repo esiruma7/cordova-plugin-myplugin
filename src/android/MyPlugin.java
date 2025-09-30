@@ -1,69 +1,109 @@
 package com.ofe.myplugin;
 
-import org.apache.cordova.CallbackContext;
+import android.content.Context;
+import android.util.Log;
 import org.apache.cordova.CordovaPlugin;
+import org.apache.cordova.CallbackContext;
 import org.json.JSONArray;
 import org.json.JSONException;
 
-// ✅ Correct LEGIC API imports
-import com.legic.mobile.sdk.api.LegicMobileSdkManager;
-import com.legic.mobile.sdk.api.LegicMobileSdkManagerFactory;
-import com.legic.mobile.sdk.api.LegicMobileSdkConfiguration;
-import com.legic.mobile.sdk.api.exception.SdkException;
-import com.legic.mobile.sdk.api.types.SdkStatus;
+import java.lang.reflect.Method;
 
 public class MyPlugin extends CordovaPlugin {
-
-    private LegicMobileSdkManager legicManager;
+    private static final String TAG = "MyPlugin";
 
     @Override
-    public boolean execute(String action, JSONArray args, CallbackContext callbackContext) throws JSONException {
-        if ("sayHello".equals(action)) {
-            String message = args.getString(0);
-            this.sayHello(message, callbackContext);
-            return true;
-        } else if ("initLegic".equals(action)) {
-            this.initLegic(callbackContext);
-            return true;
+    public boolean execute(String action, JSONArray args, CallbackContext cb) throws JSONException {
+        switch (action) {
+            case "sayHello":
+                String name = args.optString(0, "World");
+                cb.success("Hello, " + name);
+                return true;
+
+            case "testLegic":
+                return testLegic(cb);
+
+            case "initLegic": // initLegic(appId, user, pass, url)
+                return initLegic(args, cb);
         }
         return false; // Invalid action
     }
 
-    /**
-     * Simple Hello World bridge test
-     */
-    private void sayHello(String message, CallbackContext callbackContext) {
-        if (message != null && message.length() > 0) {
-            callbackContext.success("Hello, " + message);
-        } else {
-            callbackContext.error("Expected one non-empty string argument.");
+    private boolean testLegic(CallbackContext cb) {
+        try {
+            Class.forName("com.legic.mobile.sdk.api.LegicMobileSdkManager");
+            // Factory may or may not exist in this SDK – check presence only
+            boolean hasFactory;
+            try { Class.forName("com.legic.mobile.sdk.api.LegicMobileSdkManagerFactory"); hasFactory = true; }
+            catch (ClassNotFoundException e) { hasFactory = false; }
+            cb.success("LEGIC Manager interface found" + (hasFactory ? " (+ Factory present)" : " (Factory not present)"));
+            return true;
+        } catch (ClassNotFoundException e) {
+            cb.error("LEGIC classes NOT found on classpath: " + e.getMessage());
+            return true;
         }
     }
 
-    /**
-     * Initialize LEGIC Mobile SDK (stub - requires real Init Key)
-     */
-    private void initLegic(CallbackContext callbackContext) {
+    private boolean initLegic(JSONArray args, CallbackContext cb) {
         try {
-            // ⚠️ Replace with a valid init key from LEGIC
-            String initKey = "YOUR_INIT_KEY_HERE";
+            Context ctx = cordova.getActivity().getApplicationContext();
 
-            LegicMobileSdkConfiguration config =
-                new LegicMobileSdkConfiguration.Builder(initKey).build();
+            // Try several creation patterns seen across SDK versions
+            Object manager = null;
 
-            LegicMobileSdkManagerFactory factory = LegicMobileSdkManagerFactory.getInstance();
-            legicManager = factory.create(config);
+            // 1) api.LegicMobileSdkManagerFactory.create(Context)
+            try {
+                Class<?> fac = Class.forName("com.legic.mobile.sdk.api.LegicMobileSdkManagerFactory");
+                try {
+                    Method m = fac.getMethod("create", Context.class);
+                    manager = m.invoke(null, ctx);
+                } catch (NoSuchMethodException ignore) { /* continue */ }
+            } catch (ClassNotFoundException ignore) { /* continue */ }
 
-            if (legicManager != null) {
-                SdkStatus status = legicManager.getSdkStatus();
-                callbackContext.success("LEGIC SDK initialized, status: " + status);
-            } else {
-                callbackContext.error("LEGIC SDK Manager not created");
+            // 2) api.LegicMobileSdkManagerFactory.getInstance().create(Context)
+            if (manager == null) {
+                try {
+                    Class<?> fac = Class.forName("com.legic.mobile.sdk.api.LegicMobileSdkManagerFactory");
+                    Method getInst = fac.getMethod("getInstance");
+                    Object inst = getInst.invoke(null);
+                    try {
+                        Method m = fac.getMethod("create", Context.class);
+                        manager = m.invoke(inst, ctx);
+                    } catch (NoSuchMethodException ignore) { /* continue */ }
+                } catch (ClassNotFoundException | NoSuchMethodException ignore) { /* continue */ }
             }
-        } catch (SdkException e) {
-            callbackContext.error("LEGIC SDK init failed: " + e.getMessage());
-        } catch (Exception e) {
-            callbackContext.error("Unexpected error: " + e.getMessage());
+
+            if (manager == null) {
+                cb.error("LEGIC Manager could not be created via known factory patterns. " +
+                         "SDK 3.1.2.0 expects starting the manager and credentials via start(...).");
+                return true;
+            }
+
+            // If you pass credentials, try start(long,String,String,String)
+            if (args != null && args.length() >= 4) {
+                long appId     = args.optLong(0, 0L);
+                String user    = args.optString(1, "");
+                String pass    = args.optString(2, "");
+                String lcUrl   = args.optString(3, "");
+
+                try {
+                    Method start = manager.getClass().getMethod(
+                            "start", long.class, String.class, String.class, String.class);
+                    start.invoke(manager, appId, user, pass, lcUrl);
+                    cb.success("LEGIC SDK started ✅");
+                    return true;
+                } catch (NoSuchMethodException nsme) {
+                    // start(...) signature not found – still return success for creation
+                    Log.w(TAG, "start(long,String,String,String) not found on manager");
+                }
+            }
+
+            cb.success("LEGIC Manager created (not started).");
+            return true;
+
+        } catch (Throwable t) {
+            cb.error("LEGIC init error: " + t.getClass().getSimpleName() + ": " + t.getMessage());
+            return true;
         }
     }
 }
