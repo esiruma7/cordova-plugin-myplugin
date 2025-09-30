@@ -1,32 +1,18 @@
 #import <Cordova/CDV.h>
-#import <LegicMobileSdk/LegicMobileSdk.h>
+// Import only if SDK is present; otherwise leave stubbed
+// #import <LegicMobileSdk/LegicMobileSdk.h>
 
 @interface MyPlugin : CDVPlugin
 - (void)pluginInitialize;
 - (void)sayHello:(CDVInvokedUrlCommand*)command;
 @end
 
-@implementation MyPlugin {
-    LegicMobileSdkManager *legicManager;
-}
+@implementation MyPlugin
 
 - (void)pluginInitialize {
     NSLog(@"[MyPlugin] iOS plugin loaded ✅");
-
-    @try {
-        NSString *initKey = @"INIT_KEY_HERE"; // placeholder
-
-        LegicMobileSdkConfiguration *config =
-            [[LegicMobileSdkConfiguration alloc] initWithKey:initKey];
-
-        legicManager = [LegicMobileSdkManager sharedInstance];
-        [legicManager initializeWithConfiguration:config];
-
-        NSLog(@"[MyPlugin] LEGIC SDK init attempted ✅");
-    }
-    @catch (NSException *exception) {
-        NSLog(@"[MyPlugin] LEGIC init failed: %@", exception.reason);
-    }
+    // Stub init (avoids crashing if SDK symbols not available)
+    NSLog(@"[MyPlugin] LEGIC SDK init stub (waiting for unobfuscated SDK)");
 }
 
 - (void)sayHello:(CDVInvokedUrlCommand*)command {
