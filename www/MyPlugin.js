@@ -35,4 +35,5 @@ var MyPlugin = {
     }
 };
 
+window.MyPlugin = MyPlugin;   // <--- force attach to window
 module.exports = MyPlugin;
