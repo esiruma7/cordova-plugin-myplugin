@@ -11,10 +11,10 @@
 }
 
 - (void)pluginInitialize {
-    NSLog(@"[MyPlugin] iOS plugin loaded (hello test mode) ✅");
+    NSLog(@"[MyPlugin] iOS plugin loaded ✅");
 
     @try {
-        NSString *initKey = @"INIT_KEY_HERE"; // 🔑 Replace later when available
+        NSString *initKey = @"INIT_KEY_HERE"; // placeholder
 
         LegicMobileSdkConfiguration *config =
             [[LegicMobileSdkConfiguration alloc] initWithKey:initKey];
@@ -22,7 +22,7 @@
         legicManager = [LegicMobileSdkManager sharedInstance];
         [legicManager initializeWithConfiguration:config];
 
-        NSLog(@"[MyPlugin] LEGIC SDK init attempted");
+        NSLog(@"[MyPlugin] LEGIC SDK init attempted ✅");
     }
     @catch (NSException *exception) {
         NSLog(@"[MyPlugin] LEGIC init failed: %@", exception.reason);
