@@ -6,7 +6,30 @@ import org.apache.cordova.CallbackContext;
 import org.json.JSONArray;
 import org.json.JSONException;
 
+// LEGIC imports (kept)
+import com.legic.mobile.sdk.api.LegicMobileSdkManager;
+import com.legic.mobile.sdk.api.LegicMobileSdkManagerFactory;
+import com.legic.mobile.sdk.api.LegicMobileSdkConfiguration;
+
 public class MyPlugin extends CordovaPlugin {
+
+    private LegicMobileSdkManager legicManager;
+
+    @Override
+    protected void pluginInitialize() {
+        try {
+            String initKey = "INIT_KEY_HERE"; // 🔑 Replace later when available
+
+            LegicMobileSdkConfiguration config =
+                new LegicMobileSdkConfiguration.Builder(initKey).build();
+
+            legicManager = LegicMobileSdkManagerFactory.getInstance().create(config);
+
+            android.util.Log.i("MyPlugin", "LEGIC SDK initialized (hello test mode) ✅");
+        } catch (Exception e) {
+            android.util.Log.e("MyPlugin", "LEGIC init failed: " + e.getMessage(), e);
+        }
+    }
 
     @Override
     public boolean execute(String action, JSONArray args, CallbackContext callbackContext) throws JSONException {
@@ -15,7 +38,7 @@ public class MyPlugin extends CordovaPlugin {
             this.sayHello(name, callbackContext);
             return true;
         }
-        return false; // triggers "Invalid Action" if not sayHello
+        return false; // any other action → "Invalid Action"
     }
 
     private void sayHello(String name, CallbackContext callbackContext) {

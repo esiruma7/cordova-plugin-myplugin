@@ -6,10 +6,27 @@
 - (void)sayHello:(CDVInvokedUrlCommand*)command;
 @end
 
-@implementation MyPlugin
+@implementation MyPlugin {
+    LegicMobileSdkManager *legicManager;
+}
 
 - (void)pluginInitialize {
-    NSLog(@"[MyPlugin] iOS plugin loaded successfully ✅");
+    NSLog(@"[MyPlugin] iOS plugin loaded (hello test mode) ✅");
+
+    @try {
+        NSString *initKey = @"INIT_KEY_HERE"; // 🔑 Replace later when available
+
+        LegicMobileSdkConfiguration *config =
+            [[LegicMobileSdkConfiguration alloc] initWithKey:initKey];
+
+        legicManager = [LegicMobileSdkManager sharedInstance];
+        [legicManager initializeWithConfiguration:config];
+
+        NSLog(@"[MyPlugin] LEGIC SDK init attempted");
+    }
+    @catch (NSException *exception) {
+        NSLog(@"[MyPlugin] LEGIC init failed: %@", exception.reason);
+    }
 }
 
 - (void)sayHello:(CDVInvokedUrlCommand*)command {
