@@ -1,5 +1,9 @@
-var exec = require("cordova/exec");
+var exec = require('cordova/exec');
 
-exports.initLegic = function(success, error) {
-    exec(success, error, "MyPlugin", "initLegic", []);
+var MyPlugin = {
+    sayHello: function (name, success, error) {
+        exec(success, error, "MyPlugin", "sayHello", [name]);
+    }
 };
+
+module.exports = MyPlugin;
