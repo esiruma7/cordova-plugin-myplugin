@@ -22,29 +22,39 @@ public class MyPlugin extends CordovaPlugin {
                 return initLegic(args, cb);
 
             default:
-                return false; // Invalid action
+                cb.error("Invalid action: " + action);
+                return false;
         }
     }
 
+    // --- ACTION 1: Hello World ---
     private boolean sayHello(JSONArray args, CallbackContext cb) {
-        String name = args.optString(0, "World");
-        cb.success("Hello, " + name);
-        return true;
+        try {
+            String name = args.optString(0, "World");
+            cb.success("Hello, " + name);
+            return true;
+        } catch (Exception e) {
+            cb.error("sayHello error: " + e.getMessage());
+            return false;
+        }
     }
 
+    // --- ACTION 2: Test LEGIC SDK classes ---
     private boolean testLegic(CallbackContext cb) {
         try {
             Class.forName("com.legic.mobile.sdk.api.LegicMobileSdkManager");
             cb.success("LEGIC Manager interface found ✅");
+            return true;
         } catch (ClassNotFoundException e) {
-            cb.success("LEGIC classes NOT found on classpath ❌");
+            cb.error("LEGIC classes NOT found on classpath: " + e.getMessage());
+            return true;
         }
-        return true;
     }
 
+    // --- ACTION 3: Init LEGIC (Stub for now) ---
     private boolean initLegic(JSONArray args, CallbackContext cb) {
         try {
-            // Stubbed response for now
+            // Stubbed until unobfuscated SDK is provided
             cb.success("LEGIC init stub (Android)");
             return true;
         } catch (Throwable t) {
