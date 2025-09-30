@@ -50,12 +50,12 @@
 			</feature>
 		</config-file>
 
-		<!-- Include the LEGIC frameworks -->
-		<framework src="src/ios/LegicMobileSdk.framework" custom="true" embed="true" />
+		<!-- Use either .xcframework or .framework, not both -->
+		<!-- If your SDK package includes .xcframework, prefer that -->
 		<framework src="src/ios/LegicMobileSdk.xcframework" custom="true" embed="true" />
+		<!-- <framework src="src/ios/LegicMobileSdk.framework" custom="true" embed="true" /> -->
 
-		<!-- Your Objective-C/Swift bridge -->
+		<!-- Native Objective-C bridge -->
 		<source-file src="src/ios/MyPlugin.m" />
 	</platform>
-
 </plugin>

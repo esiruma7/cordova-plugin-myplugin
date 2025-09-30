@@ -2,10 +2,15 @@
 #import <LegicMobileSdk/LegicMobileSdk.h>
 
 @interface MyPlugin : CDVPlugin
+- (void)pluginInitialize;
 - (void)sayHello:(CDVInvokedUrlCommand*)command;
 @end
 
 @implementation MyPlugin
+
+- (void)pluginInitialize {
+    NSLog(@"[MyPlugin] iOS plugin loaded successfully ✅");
+}
 
 - (void)sayHello:(CDVInvokedUrlCommand*)command {
     NSString* name = [command.arguments objectAtIndex:0];
