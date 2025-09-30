@@ -17,11 +17,12 @@
 		<!-- LEGIC SDK runtime -->
 		<lib-file src="libs/LEGIC-Mobile-SDK-for-Android-V3.1.2.0/LEGIC-Mobile-SDK-for-Android-V3.1.2.0.jar" arch="all" />
 
-		<!-- (Optional) Sources JAR, not needed for runtime -->
-		<!-- <lib-file src="libs/LEGIC-Mobile-SDK-for-Android-V3.1.2.0/LEGIC-Mobile-SDK-for-Android-V3.1.2.0-sources.jar" arch="all" /> -->
+		<!-- (Optional) Sources JAR -->
+		<lib-file src="libs/LEGIC-Mobile-SDK-for-Android-V3.1.2.0/LEGIC-Mobile-SDK-for-Android-V3.1.2.0-sources.jar" arch="all" />
 
 		<!-- ProGuard rules -->
-		<resource-file src="libs/LEGIC-Mobile-SDK-for-Android-V3.1.2.0/LEGIC-Mobile-SDK-Android-proguard.pro" target="app/proguard-rules.pro" />
+		<resource-file src="libs/LEGIC-Mobile-SDK-for-Android-V3.1.2.0/LEGIC-Mobile-SDK-Android-proguard.pro"
+					   target="app/proguard-rules.pro" />
 
 		<!-- Permissions -->
 		<config-file target="AndroidManifest.xml" parent="/manifest">
