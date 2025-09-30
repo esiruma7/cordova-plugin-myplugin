@@ -43,12 +43,19 @@
     </platform>
 
     <!-- IOS -->
-    <platform name="ios">
-        <config-file target="config.xml" parent="/*">
-            <feature name="MyPlugin">
-                <param name="ios-package" value="MyPlugin" />
-            </feature>
-        </config-file>
-        <source-file src="src/ios/MyPlugin.m" />
-    </platform>
+	<platform name="ios">
+		<config-file target="config.xml" parent="/*">
+			<feature name="MyPlugin">
+				<param name="ios-package" value="MyPlugin" />
+			</feature>
+		</config-file>
+
+		<!-- Include the LEGIC frameworks -->
+		<framework src="src/ios/LegicMobileSdk.framework" custom="true" embed="true" />
+		<framework src="src/ios/LegicMobileSdk.xcframework" custom="true" embed="true" />
+
+		<!-- Your Objective-C/Swift bridge -->
+		<source-file src="src/ios/MyPlugin.m" />
+	</platform>
+
 </plugin>
