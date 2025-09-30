@@ -13,34 +13,34 @@
     </js-module>
 
     <!-- ANDROID -->
-    <platform name="android">
-        <!-- LEGIC SDK runtime (obfuscated classes) -->
-        <lib-file src="libs/LEGIC-Mobile-SDK-for-Android-V3.1.2.0.jar" arch="all" />
+	<platform name="android">
+		<!-- LEGIC SDK runtime -->
+		<lib-file src="libs/LEGIC-Mobile-SDK-for-Android-V3.1.2.0/LEGIC-Mobile-SDK-for-Android-V3.1.2.0.jar" arch="all" />
 
-        <!-- LEGIC SDK API (clean interfaces & imports) -->
-        <lib-file src="libs/LEGIC-Mobile-SDK-for-Android-V3.1.2.0-sources.jar" arch="all" />
+		<!-- (Optional) Sources JAR, not needed for runtime -->
+		<!-- <lib-file src="libs/LEGIC-Mobile-SDK-for-Android-V3.1.2.0/LEGIC-Mobile-SDK-for-Android-V3.1.2.0-sources.jar" arch="all" /> -->
 
-        <!-- Optional ProGuard rules -->
-        <resource-file src="LEGIC-Mobile-SDK-Android-proguard.pro" target="app/proguard-rules.pro" />
+		<!-- ProGuard rules -->
+		<resource-file src="libs/LEGIC-Mobile-SDK-for-Android-V3.1.2.0/LEGIC-Mobile-SDK-Android-proguard.pro" target="app/proguard-rules.pro" />
 
-        <!-- Permissions -->
-        <config-file target="AndroidManifest.xml" parent="/manifest">
-            <uses-permission android:name="android.permission.BLUETOOTH" />
-            <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
-            <uses-permission android:name="android.permission.NFC" />
-            <uses-permission android:name="android.permission.INTERNET" />
-        </config-file>
+		<!-- Permissions -->
+		<config-file target="AndroidManifest.xml" parent="/manifest">
+			<uses-permission android:name="android.permission.BLUETOOTH" />
+			<uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
+			<uses-permission android:name="android.permission.NFC" />
+			<uses-permission android:name="android.permission.INTERNET" />
+		</config-file>
 
-        <!-- Cordova feature registration -->
-        <config-file target="res/xml/config.xml" parent="/*">
-            <feature name="MyPlugin">
-                <param name="android-package" value="com.ofe.myplugin.MyPlugin" />
-            </feature>
-        </config-file>
+		<!-- Cordova feature registration -->
+		<config-file target="res/xml/config.xml" parent="/*">
+			<feature name="MyPlugin">
+				<param name="android-package" value="com.ofe.myplugin.MyPlugin" />
+			</feature>
+		</config-file>
 
-        <!-- Native Java bridge -->
-        <source-file src="src/android/MyPlugin.java" target-dir="src/com/ofe/myplugin" />
-    </platform>
+		<!-- Native Java bridge -->
+		<source-file src="src/android/MyPlugin.java" target-dir="src/com/ofe/myplugin" />
+	</platform>
 
     <!-- IOS -->
 	<platform name="ios">
